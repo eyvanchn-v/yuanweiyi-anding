@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +7,201 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* 渐入动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Logo 脉冲动画 */
+        @keyframes pulse-glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
+            }
+        }
+        
+        .logo-animate {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        /* 渐变背景 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-bg-light {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        /* 卡片悬停效果 */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* 按钮波纹效果 */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-ripple:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* 动画延迟类 */
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .animate-scaleIn {
+            animation: scaleIn 0.6s ease-out forwards;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* 初始隐藏 */
+        .animate-on-scroll {
+            opacity: 0;
+        }
+        
+        /* 导航栏背景模糊 */
+        .nav-blur {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* 价格卡片特效 */
+        .pricing-card {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.5rem;
+            padding: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .pricing-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* 特色标签 */
+        .featured-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .8;
+            }
+        }
+        
+        /* 移动端菜单动画 */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .mobile-menu.active {
+            max-height: 300px;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-800 overflow-x-hidden">
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <nav class="nav-blur shadow-lg sticky top-0 z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 flex items-center">
-                    <svg class="h-10 w-10 mr-3" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <div class="flex-shrink-0 flex items-center animate-slideInLeft">
+                    <svg class="h-10 w-10 mr-3 logo-animate" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                                 <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -27,38 +212,64 @@
                                 </feMerge>
                             </filter>
                         </defs>
-                        <!-- Background circle -->
-                        <circle cx="20" cy="20" r="20" fill="#1e1b4b" class="fill-indigo-950"/>
-                        <!-- Horizon arc with glow effect -->
-                        <path d="M 5 20 Q 20 10 35 20" stroke="#22d3ee" stroke-width="2.5" fill="none" filter="url(#glow)" stroke-linecap="round"/>
+                        <circle cx="20" cy="20" r="12" fill="#1e1b4b" class="fill-indigo-950"/>
+                        <path d="M 2 22 Q 20 8 38 22" stroke="#22d3ee" stroke-width="1" fill="none" filter="url(#glow)" stroke-linecap="round" opacity="0.6"/>
+                        <path d="M 5 21.5 Q 20 9 35 21.5" stroke="#22d3ee" stroke-width="2" fill="none" filter="url(#glow)" stroke-linecap="round" opacity="0.8"/>
+                        <path d="M 10 21 Q 20 12 30 21" stroke="#22d3ee" stroke-width="3.5" fill="none" filter="url(#glow)" stroke-linecap="round"/>
+                        <path d="M 15 20.5 Q 20 15 25 20.5" stroke="#22d3ee" stroke-width="4" fill="none" filter="url(#glow)" stroke-linecap="round"/>
                     </svg>
-                    <span class="font-bold text-xl text-indigo-600">Inner Compass</span>
+                    <span class="font-bold text-xl bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Inner Compass</span>
                 </div>
                 <div class="hidden md:flex space-x-8">
-                    <a href="#features" class="text-gray-500 hover:text-gray-900">Features</a>
-                    <a href="#pricing" class="text-gray-500 hover:text-gray-900">Pricing</a>
-                    <a href="#contact" class="text-gray-500 hover:text-gray-900">Contact</a>
+                    <a href="#features" class="text-gray-600 hover:text-indigo-600 transition-colors duration-200 font-medium relative group">
+                        Features
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#pricing" class="text-gray-600 hover:text-indigo-600 transition-colors duration-200 font-medium relative group">
+                        Pricing
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="text-gray-600 hover:text-indigo-600 transition-colors duration-200 font-medium relative group">
+                        Contact
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition-colors duration-200">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="mobile-menu md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="#features" class="block px-3 py-2 rounded-md text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition-colors duration-200">Features</a>
+                    <a href="#pricing" class="block px-3 py-2 rounded-md text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition-colors duration-200">Pricing</a>
+                    <a href="#contact" class="block px-3 py-2 rounded-md text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition-colors duration-200">Contact</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <header class="bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+    <header class="relative bg-white overflow-hidden">
+        <div class="absolute inset-0 gradient-bg-light opacity-50"></div>
+        <div class="max-w-7xl mx-auto relative">
+            <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
                 <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                     <div class="sm:text-center lg:text-left">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl animate-fadeInUp">
                             <span class="block xl:inline">Unlock your potential with</span>
-                            <span class="block text-indigo-600 xl:inline">AI Analytics</span>
+                            <span class="block bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent xl:inline"> AI Analytics</span>
                         </h1>
-                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        <p class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 animate-fadeInUp delay-200 animate-on-scroll">
                             Inner Compass leverages advanced Large Language Models (LLMs) to analyze your personal traits and decision-making patterns. Get a comprehensive report on your psychological archetype and growth path.
                         </p>
-                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                            <div class="rounded-md shadow">
-                                <a href="#pricing" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg">
+                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start animate-fadeInUp delay-300 animate-on-scroll">
+                            <div class="rounded-md shadow-lg">
+                                <a href="#pricing" class="btn-ripple w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white gradient-bg hover:shadow-xl transform hover:scale-105 transition-all duration-300 md:py-4 md:text-lg">
                                     Get Started
+                                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    </svg>
                                 </a>
                             </div>
                         </div>
@@ -66,127 +277,402 @@
                 </main>
             </div>
         </div>
+        <!-- 装饰性元素 -->
+        <div class="hidden lg:block absolute top-0 right-0 w-1/2 h-full">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-96 h-96 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+            </div>
+        </div>
     </header>
 
-    <section id="features" class="py-12 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center">
+    <section id="features" class="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-200 rounded-full opacity-10 -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-purple-200 rounded-full opacity-10 translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="lg:text-center animate-on-scroll animate-fadeInUp">
                 <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">How It Works</h2>
                 <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                     From Data to Insight
                 </p>
-                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                <p class="mt-4 max-w-2xl text-xl text-gray-600 lg:mx-auto">
                     We use a Pay-per-Report model. Users receive immediate digital delivery upon successful payment.
                 </p>
             </div>
 
-            <div class="mt-10">
-                <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8">
-                    <div class="bg-white p-6 rounded-lg shadow text-center">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-auto">
-                            1
+            <div class="mt-16">
+                <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center card-hover animate-on-scroll animate-scaleIn delay-100 relative group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative">
+                            <div class="flex items-center justify-center h-16 w-16 rounded-full gradient-bg text-white mx-auto text-xl font-bold shadow-lg">
+                                1
+                            </div>
+                            <h3 class="mt-6 text-xl leading-6 font-bold text-gray-900">Input Parameters</h3>
+                            <p class="mt-4 text-base text-gray-600 leading-relaxed">
+                                Enter your basic information. Our AI engine processes your data points securely.
+                            </p>
                         </div>
-                        <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900">Input Parameters</h3>
-                        <p class="mt-2 text-base text-gray-500">
-                            Enter your basic information. Our AI engine processes your data points securely.
-                        </p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-lg shadow text-center">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-auto">
-                            2
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center card-hover animate-on-scroll animate-scaleIn delay-200 relative group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative">
+                            <div class="flex items-center justify-center h-16 w-16 rounded-full gradient-bg text-white mx-auto text-xl font-bold shadow-lg">
+                                2
+                            </div>
+                            <h3 class="mt-6 text-xl leading-6 font-bold text-gray-900">Generate Preview</h3>
+                            <p class="mt-4 text-base text-gray-600 leading-relaxed">
+                                View a free summary of your psychological archetype and verify accuracy.
+                            </p>
                         </div>
-                        <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900">Generate Preview</h3>
-                        <p class="mt-2 text-base text-gray-500">
-                            View a free summary of your psychological archetype and verify accuracy.
-                        </p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-lg shadow text-center border-2 border-indigo-100">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-auto">
-                            3
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center card-hover animate-on-scroll animate-scaleIn delay-300 relative group border-2 border-indigo-100">
+                        <div class="absolute -top-3 -right-3 featured-badge text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                            Popular
                         </div>
-                        <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900">Unlock Full Report</h3>
-                        <p class="mt-2 text-base text-gray-500">
-                            Complete payment via credit card to instantly download your detailed 50+ page PDF analysis.
-                        </p>
+                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative">
+                            <div class="flex items-center justify-center h-16 w-16 rounded-full gradient-bg text-white mx-auto text-xl font-bold shadow-lg">
+                                3
+                            </div>
+                            <h3 class="mt-6 text-xl leading-6 font-bold text-gray-900">Unlock Full Report</h3>
+                            <p class="mt-4 text-base text-gray-600 leading-relaxed">
+                                Complete payment via credit card to instantly download your detailed 50+ page PDF analysis.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="pricing" class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="sm:flex sm:flex-col sm:align-center">
+    <section id="pricing" class="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-indigo-200 to-purple-200 rounded-full opacity-10 blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="sm:flex sm:flex-col sm:align-center animate-on-scroll animate-fadeInUp">
                 <h1 class="text-5xl font-extrabold text-gray-900 sm:text-center">Pricing Plans</h1>
-                <p class="mt-5 text-xl text-gray-500 sm:text-center">Simple, transparent pricing. No hidden fees.</p>
+                <p class="mt-5 text-xl text-gray-600 sm:text-center">Simple, transparent pricing. No hidden fees.</p>
             </div>
-            <div class="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-2">
+            <div class="mt-16 space-y-8 sm:mt-20 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-8 lg:max-w-5xl lg:mx-auto">
                 
-                <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200">
-                    <div class="p-6">
-                        <h2 class="text-lg leading-6 font-medium text-gray-900">Standard Report</h2>
-                        <p class="mt-4 text-sm text-gray-500">Basic personality insights.</p>
-                        <p class="mt-8">
-                            <span class="text-4xl font-extrabold text-gray-900">$9.90</span>
-                            <span class="text-base font-medium text-gray-500">/report</span>
+                <div class="pricing-card border border-gray-200 rounded-2xl shadow-xl divide-y divide-gray-200 bg-white transform transition-all duration-300 hover:scale-105 animate-on-scroll animate-scaleIn delay-100">
+                    <div class="p-8">
+                        <h2 class="text-2xl leading-6 font-bold text-gray-900">Standard Report</h2>
+                        <p class="mt-4 text-base text-gray-600">Basic personality insights.</p>
+                        <p class="mt-8 flex items-baseline">
+                            <span class="text-5xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">$9.90</span>
+                            <span class="ml-2 text-xl font-medium text-gray-500">/report</span>
                         </p>
-                        <a href="#" class="mt-8 block w-full bg-indigo-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-indigo-700">Buy Now</a>
+                        <ul class="mt-8 space-y-4">
+                            <li class="flex items-start">
+                                <svg class="flex-shrink-0 h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="ml-3 text-base text-gray-700">Personality Analysis</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="flex-shrink-0 h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="ml-3 text-base text-gray-700">50+ Page PDF Report</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="flex-shrink-0 h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="ml-3 text-base text-gray-700">Instant Delivery</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="btn-ripple mt-10 block w-full bg-white border-2 border-indigo-600 rounded-lg py-3 text-base font-semibold text-indigo-600 text-center hover:bg-indigo-50 transition-all duration-300 transform hover:shadow-lg">
+                            Buy Now
+                        </a>
                     </div>
                 </div>
 
-                <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 bg-indigo-50">
-                    <div class="p-6">
-                        <h2 class="text-lg leading-6 font-medium text-gray-900">Premium Insight</h2>
-                        <p class="mt-4 text-sm text-gray-500">Comprehensive life path analysis + 1 Month AI Chat.</p>
-                        <p class="mt-8">
-                            <span class="text-4xl font-extrabold text-gray-900">$19.90</span>
-                            <span class="text-base font-medium text-gray-500">/report</span>
+                <div class="pricing-card border-2 border-indigo-500 rounded-2xl shadow-2xl divide-y divide-gray-200 bg-gradient-to-br from-indigo-50 to-purple-50 transform transition-all duration-300 hover:scale-105 animate-on-scroll animate-scaleIn delay-200 relative">
+                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                        <span class="featured-badge text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg">
+                            ⭐ MOST POPULAR
+                        </span>
+                    </div>
+                    <div class="p-8">
+                        <h2 class="text-2xl leading-6 font-bold text-gray-900">Premium Insight</h2>
+                        <p class="mt-4 text-base text-gray-600">Comprehensive life path analysis + 1 Month AI Chat.</p>
+                        <p class="mt-8 flex items-baseline">
+                            <span class="text-5xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">$19.90</span>
+                            <span class="ml-2 text-xl font-medium text-gray-500">/report</span>
                         </p>
-                        <a href="#" class="mt-8 block w-full bg-indigo-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-indigo-700">Buy Now</a>
+                        <ul class="mt-8 space-y-4">
+                            <li class="flex items-start">
+                                <svg class="flex-shrink-0 h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="ml-3 text-base text-gray-700 font-medium">Everything in Standard</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="flex-shrink-0 h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="ml-3 text-base text-gray-700 font-medium">Life Path Analysis</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="flex-shrink-0 h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="ml-3 text-base text-gray-700 font-medium">1 Month AI Chat Support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="flex-shrink-0 h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="ml-3 text-base text-gray-700 font-medium">Priority Support</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="btn-ripple mt-10 block w-full gradient-bg border border-transparent rounded-lg py-3 text-base font-semibold text-white text-center hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            Buy Now
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="contact" class="bg-gray-800">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-400">
+    <footer id="contact" class="bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-600 rounded-full opacity-5 -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-purple-600 rounded-full opacity-5 translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-gray-400">
                 
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Company Info</h3>
-                    <p class="mt-4 text-base">
+                <div class="animate-on-scroll animate-fadeInUp delay-100">
+                    <h3 class="text-sm font-bold text-gray-200 tracking-wider uppercase mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        Company Info
+                    </h3>
+                    <p class="text-base leading-relaxed">
                         Shanghai YUANWEIYIWENHUAKEJI Co., Ltd. <br>
-                        Address:  Jiading District, Shanghai, China.
+                        <span class="text-gray-500">Address:</span> Yecheng Road,925, Jiading District, Shanghai, China.
                     </p>
                 </div>
 
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Legal</h3>
-                    <ul class="mt-4 space-y-4">
-                        <li><a href="privacy.html" target="_blank" class="text-base hover:text-white">Privacy Policy</a></li>
-                        <li><a href="terms.html" target="_blank" class="text-base hover:text-white">Terms of Service</a></li>
-                        <li><a href="refund.html" target="_blank" class="text-base hover:text-white">Refund Policy</a></li>
+                <div class="animate-on-scroll animate-fadeInUp delay-200">
+                    <h3 class="text-sm font-bold text-gray-200 tracking-wider uppercase mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Legal
+                    </h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="privacy.html" target="_blank" class="text-base hover:text-indigo-400 transition-colors duration-200 flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2 group-hover:scale-150 transition-transform duration-200"></span>
+                                Privacy Policy
+                            </a>
+                        </li>
+                        <li>
+                            <a href="terms.html" target="_blank" class="text-base hover:text-indigo-400 transition-colors duration-200 flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2 group-hover:scale-150 transition-transform duration-200"></span>
+                                Terms of Service
+                            </a>
+                        </li>
+                        <li>
+                            <a href="refund.html" target="_blank" class="text-base hover:text-indigo-400 transition-colors duration-200 flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2 group-hover:scale-150 transition-transform duration-200"></span>
+                                Refund Policy
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Contact Us</h3>
-                    <p class="mt-4 text-base">
-                        Email: eyvanchn@gmail.com<br>
-                        (We usually reply within 24 hours)
+                <div class="animate-on-scroll animate-fadeInUp delay-300">
+                    <h3 class="text-sm font-bold text-gray-200 tracking-wider uppercase mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        Contact Us
+                    </h3>
+                    <p class="text-base leading-relaxed">
+                        <span class="text-gray-500">Email:</span> 
+                        <a href="mailto:eyvanchn@gmail.com" class="text-indigo-400 hover:text-indigo-300 transition-colors duration-200">
+                            eyvanchn@gmail.com
+                        </a>
+                        <br>
+                        <span class="text-sm text-gray-500 italic">(We usually reply within 24 hours)</span>
                     </p>
                 </div>
             </div>
-            <div class="mt-8 border-t border-gray-700 pt-8">
-                <p class="text-base text-gray-400 text-center">
+            
+            <div class="mt-12 border-t border-gray-700 pt-8">
+                <p class="text-base text-gray-400 text-center animate-on-scroll animate-fadeIn">
                     &copy; 2026 Inner Compass. All rights reserved.
                 </p>
             </div>
         </div>
-    </footer >
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // 点击菜单项后关闭菜单
+            const menuLinks = mobileMenu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+        
+        // 滚动动画观察器
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.animation = entry.target.style.animation || 
+                        entry.target.className.match(/animate-\w+/)?.[0]?.replace('animate-', '') + ' 0.8s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+        
+        // 观察所有需要动画的元素
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+        
+        // 导航栏滚动效果
+        let lastScroll = 0;
+        const nav = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                nav.classList.add('shadow-xl');
+            } else {
+                nav.classList.remove('shadow-xl');
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80; // 导航栏高度偏移
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // 按钮点击波纹效果增强
+        document.querySelectorAll('.btn-ripple').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple-effect');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+        
+        // 添加视差效果到装饰性元素
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.absolute.blur-3xl');
+            
+            parallaxElements.forEach((el, index) => {
+                const speed = (index % 2 === 0) ? 0.5 : 0.3;
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+        
+        // 数字计数动画（可选，为未来扩展准备）
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        // Logo 悬停交互
+        const logo = document.querySelector('.logo-animate');
+        if (logo) {
+            logo.addEventListener('mouseenter', () => {
+                logo.style.transform = 'scale(1.1) rotate(5deg)';
+                logo.style.transition = 'transform 0.3s ease';
+            });
+            
+            logo.addEventListener('mouseleave', () => {
+                logo.style.transform = 'scale(1) rotate(0deg)';
+            });
+        }
+        
+        // 性能优化：节流函数
+        function throttle(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // 优化滚动事件监听
+        const optimizedScroll = throttle(() => {
+            // 滚动相关的优化处理
+        }, 100);
+        
+        window.addEventListener('scroll', optimizedScroll);
+    </script>
 
 </body>
 </html>
